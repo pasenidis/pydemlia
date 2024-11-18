@@ -1,8 +1,8 @@
 import binascii
-from functools import reduce
+from functools import reduce, total_ordering
 from typing import List
 
-
+@total_ordering
 class UID:
     ID_LENGTH = 20  # 160 bits
 
@@ -79,7 +79,6 @@ class UID:
         return binascii.hexlify(self.bid).decode('utf-8').upper()
 
     def __hash__(self) -> int:
-        # Hash calculation similar to the Java implementation
         def xor_reduce(array: List[int]):
             return reduce(lambda x, y: x ^ y, array, 0)
 
