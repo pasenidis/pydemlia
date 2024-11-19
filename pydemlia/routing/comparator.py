@@ -10,7 +10,7 @@ class KComparator:
         """
         self.key = key.get_int()
 
-    def compare(self, node_a, node_b) -> int:
+    def compare(self, node_a: Node, node_b: Node) -> int:
         """
         Compare two nodes based on their distance from the key.
         :param node_a: The first Node object.
@@ -18,8 +18,8 @@ class KComparator:
         :return: Negative if node_a is closer, positive if node_b is closer, 0 if equal.
         """
         # Calculate distances using XOR
-        dist_a = node_a.get_uid().get_int() ^ self.key
-        dist_b = node_b.get_uid().get_int() ^ self.key
+        dist_a = node_a.id.get_int() ^ self.key
+        dist_b = node_b.id.get_int() ^ self.key
 
         # Compare absolute distances
         return (dist_a > dist_b) - (dist_a < dist_b)  # Equivalent to Java's compareTo()
