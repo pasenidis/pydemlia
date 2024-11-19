@@ -92,6 +92,9 @@ class UID:
             return False
         return self.bid == other.bid
 
+    def __lt__(self, other: 'UID') -> bool:
+        return self.get_int() < other.get_int()
+
     def __str__(self) -> str:
         parts = [
             binascii.hexlify(self.bid[:3]).decode('utf-8'),

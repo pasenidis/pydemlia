@@ -22,8 +22,15 @@ class Network:
         elif message.startswith("SUCCESS") or message.startswith("FAILURE"):
             # Handle response from STORE request
             pass
+
+    def shutdown(self):
+        self.running = False
+        self.socket.close()
     
     def handle_store_request(self, message):
-        _, key, value = message.split()
-        # Logic to store the kv pair locally
-        # Send back SUCCESS or FAILURE response
+        try:
+            op, key, value = message['operation'], message['key'], message['value'] or None
+            # Logic to store the kv pair locally
+            # Send back SUCCESS or FAILURE response
+        except KeyError as e:
+            print(f"Missing key in store request: {e}")

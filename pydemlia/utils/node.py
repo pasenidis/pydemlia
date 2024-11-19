@@ -1,10 +1,18 @@
+from functools import total_ordering
+from pydemlia.utils.uid import UID
+
+@total_ordering
 class Node:
-    def __init__(self, id, ip, port):
+    def __init__(self, id: UID, ip, port):
         self.id = id
         self.ip = ip
         self.port = port
         self.last_seen = 0  # Example timestamp; set it properly in your application
         self.stale_count = 0
+
+    def distance_to(self, key: UID) -> int:
+        """Calculate the XOR distance using UID."""
+        return self.id.get_distance(key)
 
     def set_seen(self):
         """Mark the node as seen."""
