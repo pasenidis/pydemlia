@@ -1,36 +1,48 @@
 import socket
 import threading
+import json
 
 class Network:
     def __init__(self, host, port):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((host, port))
+        self.socket.settimeout(1)  # Allow graceful shutdown
         self.running = True
+        self.handlers = {}  # Map operations to handler methods
 
     def send(self, message, address):
-        self.socket.sendto(message.encode(), address)
+        try:
+            serialized_message = json.dumps(message).encode()
+            self.socket.sendto(serialized_message, address)
+        except Exception as e:
+            print(f"Error sending message to {address}: {e}")
 
     def receive(self):
         while self.running:
-            data, addr = self.socket.recvfrom(1024)
-            threading.Thread(target=self.handle_message, args=(data.decode(), addr)).start()
+            try:
+                data, addr = self.socket.recvfrom(1024)
+                message = data.decode()
+                threading.Thread(target=self.handle_message, args=(message, addr)).start()
+            except socket.timeout:
+                continue
+            except Exception as e:
+                print(f"Error receiving message: {e}")
 
     def handle_message(self, message, addr):
-        if message.startswith("STORE"):
-            # Handle STORE request
-            self.handle_store_request(message)
-        elif message.startswith("SUCCESS") or message.startswith("FAILURE"):
-            # Handle response from STORE request
-            pass
+        try:
+            parsed_message = json.loads(message)
+            operation = parsed_message.get('operation')
+            if operation in self.handlers:
+                self.handlers[operation](parsed_message, addr)
+            else:
+                print(f"Unknown operation: {operation}")
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode message from {addr}: {e}")
+
+    def register_handler(self, operation, handler):
+        """Register a handler for a specific operation."""
+        self.handlers[operation] = handler
 
     def shutdown(self):
         self.running = False
         self.socket.close()
-    
-    def handle_store_request(self, message):
-        try:
-            op, key, value = message['operation'], message['key'], message['value'] or None
-            # Logic to store the kv pair locally
-            # Send back SUCCESS or FAILURE response
-        except KeyError as e:
-            print(f"Missing key in store request: {e}")

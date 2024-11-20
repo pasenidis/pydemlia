@@ -30,6 +30,18 @@ class Node:
         """Returns the Node's UID"""
         return self.id
 
+    def get_ip(self):
+        """
+        Get the IP address of the node.
+        """
+        return self.ip
+
+    def get_port(self):
+        """
+        Get the port of the node.
+        """
+        return self.port
+
     def has_queried(self, now: int) -> bool:
         """Check if the node has been queried recently."""
         return now - self.last_seen < 5000
