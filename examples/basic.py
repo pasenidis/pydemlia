@@ -13,3 +13,5 @@ dht = DHT(node=local_node, network=network)
 threading.Thread(target=network.receive).start()
 
 dht.put("test", 123)
+
+print(dht.data_store)

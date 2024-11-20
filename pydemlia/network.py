@@ -13,6 +13,7 @@ class Network:
     def send(self, message, address):
         try:
             serialized_message = json.dumps(message).encode()
+            print(f"Send '{serialized_message}' to {address}")
             self.socket.sendto(serialized_message, address)
         except Exception as e:
             print(f"Error sending message to {address}: {e}")
@@ -22,6 +23,7 @@ class Network:
             try:
                 data, addr = self.socket.recvfrom(1024)
                 message = data.decode()
+                print(f"Received {message} from {addr}")
                 threading.Thread(target=self.handle_message, args=(message, addr)).start()
             except socket.timeout:
                 continue
