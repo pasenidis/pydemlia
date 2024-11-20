@@ -7,8 +7,8 @@ class KBucket:
     MAX_STALE_COUNT = 1
 
     def __init__(self):
-        self.nodes = []  # List of active nodes
-        self.cache = []  # List of cached nodes
+        self.nodes: List[Node] = []  # List of active nodes
+        self.cache: List[Node] = []  # List of cached nodes
         self.lock = Lock()
 
     def insert(self, node: Node):
@@ -39,6 +39,16 @@ class KBucket:
                 self.nodes.append(node)
                 self.nodes.sort()
 
+    def remove(self, node: Node):
+        """
+        Remove a node from the KBucket. If the node is not found, do nothing.
+        """
+        with self.lock:
+            if node in self.nodes:
+                self.nodes.remove(node)
+            if node in self.cache:
+                self.cache.remove(node)
+    
     def contains_ip(self, node: Node) -> bool:
         with self.lock:
             return node in self.nodes or node in self.cache

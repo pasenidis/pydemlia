@@ -22,6 +22,14 @@ class Node:
         """Get the number of times this node has been marked stale."""
         return self.stale_count
 
+    def mark_stale(self):
+        """Mark node stale once by incrementing the stale count by 1"""
+        self.stale_count += 1
+
+    def get_uid(self):
+        """Returns the Node's UID"""
+        return self.id
+
     def has_queried(self, now: int) -> bool:
         """Check if the node has been queried recently."""
         return now - self.last_seen < 5000

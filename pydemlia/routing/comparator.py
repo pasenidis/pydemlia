@@ -1,6 +1,5 @@
 from pydemlia.utils.node import Node
 from pydemlia.utils.uid import UID
-from typing import Any
 
 class KComparator:
     def __init__(self, key):
@@ -18,23 +17,8 @@ class KComparator:
         :return: Negative if node_a is closer, positive if node_b is closer, 0 if equal.
         """
         # Calculate distances using XOR
-        dist_a = node_a.id.get_int() ^ self.key
-        dist_b = node_b.id.get_int() ^ self.key
+        dist_a = node_a.get_uid().get_int() ^ self.key
+        dist_b = node_b.get_uid().get_int() ^ self.key
 
         # Compare absolute distances
-        return (dist_a > dist_b) - (dist_a < dist_b)  # Equivalent to Java's compareTo()
-
-"""
-Example usage inside of code
-
-# Instantiate UIDs
-key_uid = UID(100)
-node1 = Node(UID(80))
-node2 = Node(UID(120))
-
-# Create comparator
-comparator = KComparator(key_uid)
-
-# Compare nodes
-print(comparator.compare(node1, node2))  # Output will indicate which node
-"""
+        return (dist_a > dist_b) - (dist_a < dist_b)

@@ -45,7 +45,7 @@ class DHT:
     def bootstrap(self, bootstrap_node):
         message = {
             'operation': 'FIND_NODE',
-            'key': self.node.id
+            'key': self.node.get_uid()
         }
         self.send_rpc(bootstrap_node, message)
         # Assuming the response from bootstrap_node contains the closest nodes to join the network
