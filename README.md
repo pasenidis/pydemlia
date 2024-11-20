@@ -1,6 +1,8 @@
 # pydemlia
 Kademlia distributed hash table implementation in Python
 
+![Pydemlia Cover Image](https://raw.githubusercontent.com/pasenidis/pydemlia/refs/heads/main/docs/cover.jpg)
+
 ## TODO
 - [X] Basic Routing
 - [ ] Proper RPCs
