@@ -2,7 +2,7 @@
 Kademlia distributed hash table implementation in Python
 
 ## TODO
-- [ X ] Basic Routing
+- [X] Basic Routing
 - [ ] Proper RPCs
 - Security Mechanisms
     - [ ] CRC32
