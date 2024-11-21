@@ -48,6 +48,9 @@ class KBucket:
                 self.nodes.remove(node)
             if node in self.cache:
                 self.cache.remove(node)
+
+    def derive_uid(self, node):
+        pass
     
     def contains_ip(self, node: Node) -> bool:
         with self.lock:

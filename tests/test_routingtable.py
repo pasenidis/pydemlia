@@ -5,7 +5,6 @@ from pydemlia.routing.table import RoutingTable
 from pydemlia.routing.bucket import KBucket
 
 class TestRoutingTable(unittest.TestCase):
-
     def setUp(self):
         """
         Create a RoutingTable with a local node ID for testing.

@@ -6,9 +6,13 @@ Kademlia distributed hash table implementation in Python
 ## TODO
 - [X] Basic Routing
 - [ ] Proper RPCs
+- [ ] Tasks
+- [ ] Listener
 - Security Mechanisms
     - [ ] CRC32
-    - [ ] Protobuf
+    - [X] Bencoder
+- [ ] Consensus
+- [ ] Derive UID
 
 ## Goals
 This project will become a fully-functional library at some point, but for now it is more of a personal research journey.

@@ -1,5 +1,6 @@
 import socket
 import threading
+import bencoder
 import json
 
 class Network:
@@ -12,7 +13,7 @@ class Network:
 
     def send(self, message, address):
         try:
-            serialized_message = json.dumps(message).encode()
+            serialized_message = bencoder.bencode(message)
             print(f"Send '{serialized_message}' to {address}")
             self.socket.sendto(serialized_message, address)
         except Exception as e:
@@ -32,7 +33,7 @@ class Network:
 
     def handle_message(self, message, addr):
         try:
-            parsed_message = json.loads(message)
+            parsed_message, length = bencoder.bdecode2(message)
             operation = parsed_message.get('operation')
             if operation in self.handlers:
                 self.handlers[operation](parsed_message, addr)
